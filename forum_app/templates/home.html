@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+Rush01
+{% endblock %}
+
+{% block content %}
+<span>HOME</span>
+{% if post_list %}
+  {% for post in post_list %}
+    <p>
+    <a href={% url 'forum_app:post' post.id%}>{{ post.title }}</a>
+    | {{ post.author }} | {{ post.created }}</p>
+  {% endfor %}
+{% else %}
+  <p>Nothing else.. TT</p>
+{% endif %}
+{% endblock %}

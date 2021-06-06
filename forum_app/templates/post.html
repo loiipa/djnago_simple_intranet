@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+Rush01
+{% endblock %}
+
+{% block content %}
+  <div> {{ post.title }} | {{ post.author }} | {{ post.created }} </div>
+  <div> {{ post.content }} </div>
+  <div>---</div>
+  {% for comment in post.comment_set.all %}
+    <div>{{ comment.author }} | {{ comment.created }}<div>
+    <div>{{ comment.content }}<div>
+  {% endfor %}
+{% endblock %}
+
