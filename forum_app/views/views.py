@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post
-from .forms import UserForm, PostForm, CommentForm
+from forum_app.models import Post
+from forum_app.forms import UserForm, PostForm, CommentForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 
