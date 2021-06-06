@@ -1,4 +1,4 @@
 #!/bin/sh
 
-source env_d08/bin/activate
+source env_r01/bin/activate
 python3 manage.py runserver
