@@ -5,7 +5,7 @@ Login
 {% endblock %}
 
 {% block content %}
-<form action="{% url 'forum_app:login' %}" method="POST" class="form">
+<form action="{% url 'forum_app:login' %}" method="post" class="form">
   {% if notice %}
     <p>{{ notice }}</p>
   {% endif %}

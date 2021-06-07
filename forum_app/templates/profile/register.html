@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block content %}
+{%if user_profile == None%}
+<form action="{%url 'forum_app:profile_init' %}" method="post" class="form">
+{%else%}
+<form action="{%url 'forum_app:profile_init' user_profile.id %}" method="post" class="form">
+{%endif%}
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Registration">
+  <input type="reset" value="Cancel">
+</form>
+{% endblock %}
