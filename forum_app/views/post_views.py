@@ -1,14 +1,15 @@
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from forum_app.forms.forms import PostForm, CommentForm
 from forum_app.models.models import Post, Comment
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render, reverse
 from django.core.paginator import Paginator
-
 from django.shortcuts import get_object_or_404
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 # from forum_app.models import Post
+
 
 class PostView(ListView):
 	model = Post
@@ -23,9 +24,11 @@ class PostView(ListView):
 		# page_obj = paginator.get_page(page_number)
 		return post_list
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
+	login_url = '/login/'
+	redirect_field_name = 'login'
 	model = Post
-	template_name = 'post_create.html'
+	template_name = 'post_edit.html'
 	fields = ['title', 'content']
 	context_object_name = 'form'
 
@@ -36,7 +39,9 @@ class PostCreateView(CreateView):
 		post.save()
 		return redirect('/')
 
-class PostEditView(UpdateView):
+class PostEditView(LoginRequiredMixin, UpdateView):
+	login_url = '/login/'
+	redirect_field_name = 'login'
 	model = Post
 	template_name = 'post_edit.html'
 	fields = ['title', 'content']
@@ -46,26 +51,29 @@ class PostEditView(UpdateView):
 	def get_success_url(self):
 		return reverse('forum_app:post', kwargs={'post_id':self.object.id})
 
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+	login_url = '/login/'
+	redirect_field_name = 'login'
+	model = Post
+	template_name = 'post_delete.html'
+	context_object_name = 'post'
+	pk_url_kwarg = 'post_id'
 
-# class ComnentCreateView(CreateView):
+	def get_success_url(self):
+		return reverse('forum_app:home')
+
+# class CommentDeleteView(LoginRequiredMixin, DeleteView):
+# 	login_url = '/login/'
+# 	redirect_field_name = 'login'
 # 	model = Comment
-# 	template_name = 'post.html'
-# 	fields = ['content']
-# 	context_object_name = 'form'
+# 	template_name = 'comment_delete.html'
+# 	context_object_name = 'comment'
+# 	pk_url_kwarg = 'post_id'
 
-# 	def get_queryset(self):
-# 		post = get_object_or_404(Post, id=post_id)
-# 		return post
+# 	def get_success_url(self):
+# 		return reverse('forum_app:post', kwargs={'post_id':self.object.id})
 
-# 	def form_valid(self, form):
-# 		comment = form.save(commit=False)
-# 		# comment.author =
-# 		# comment.post = request.post
-# 		comment.created = timezone.now()
-# 		comment.save()
-# 		return redirect('/')
-
-
+@login_required(login_url='forum_app:login')
 def post(request, post_id):
 	post = get_object_or_404(Post, pk=post_id)
 
@@ -85,6 +93,7 @@ def post(request, post_id):
 	context = {'post':post, 'form':form}
 	return render(request, 'post.html', context)
 
+@login_required(login_url='forum_app:login')
 def post_2(request, post_id, com_id):
 	post = get_object_or_404(Post, pk=post_id)
 	comment = get_object_or_404(Comment, pk=com_id)

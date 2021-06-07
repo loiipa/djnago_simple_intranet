@@ -1,18 +1,19 @@
-  {% for child_com in comment.child_comment.all %}
-    <div>{% include "comment_space.html" %}|&nbsp;&nbsp;{{ child_com.author }} | {{ child_com.created }}</div>
-    <div>{% include "comment_space.html" %} > {{ child_com.content }}
-    <a href={% url 'forum_app:post_2' post.id child_com.id %}>comment</a>
-    {% if com.id == child_com.id %}
-      <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Save">
-      </form>
+{% for child_com in comment.child_comment.all %}
+  <div>{% include "comment_space.html" %}|&nbsp;&nbsp;{{ child_com.author }} | {{ child_com.created }}</div>
+  <div>{% include "comment_space.html" %} > {{ child_com.content }}
+  <a href={% url 'forum_app:post_2' post.id child_com.id %}>comment</a>
+  {% if com.id == child_com.id %}
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Save">
+      <a href={% url 'forum_app:post' post.id %}>cancel</a>
+    </form>
+  {% endif %}
+  </div>
+  {% with child_com as comment %}
+    {% if comment.child_comment.all %}
+      {% include 'comment.html' %}
     {% endif %}
-    </div>
-    {% with child_com as comment %}
-      {% if comment.child_comment.all %}
-        {% include 'comment.html' %}
-      {% endif %}
-    {% endwith %}
-  {% endfor %}
+  {% endwith %}
+{% endfor %}

@@ -16,9 +16,9 @@ Including another URLconf
 from django.urls import path
 from django.contrib.auth.decorators import login_required
 from forum_app.views.post_views import post, post_2
-from forum_app.views.post_views import PostView, PostCreateView, PostEditView
+from forum_app.views.post_views import PostView, PostCreateView, PostEditView, PostDeleteView
 from forum_app.views.account_views import LogInView, LogOutView, SignUpView, CheckProfileView
-
+# from forum_app.views.post_views import CommentDeleteView
 app_name = 'forum_app'
 
 urlpatterns = [
@@ -26,8 +26,10 @@ urlpatterns = [
     path('login/', LogInView.as_view(), name='login'),
     path('logout/', LogOutView.as_view(), name='logout'),
     path('registration/', SignUpView.as_view(), name='registration'),
-    path('post/<int:post_id>', post, name='post'),
-    path('post/<int:post_id>/<int:com_id>', post_2, name='post_2'),
+    path('post/<int:post_id>/', post, name='post'),
+    path('post/<int:post_id>/<int:com_id>/', post_2, name='post_2'),
+    # path('post/<int:post_id>/<int:com_id>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
     path('post_create/', PostCreateView.as_view(), name='post_create'),
-    path('post/<int:post_id>/edit', PostEditView.as_view(), name='edit')
+    path('post/<int:post_id>/edit/', PostEditView.as_view(), name='post_edit'),
+    path('post/<int:post_id>/delete/', PostDeleteView.as_view(), name='post_delete')
 ]
