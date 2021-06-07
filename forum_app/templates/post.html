@@ -5,12 +5,19 @@ Rush01
 {% endblock %}
 
 {% block content %}
+  <a href={% url 'forum_app:home' %}>Back to Home</a>
+  <a href={% url 'forum_app:edit' post.id%}>Edit Post</a>
   <div> {{ post.title }} | {{ post.author }} | {{ post.created }} </div>
   <div> {{ post.content }} </div>
   <div>---</div>
+
+
+  <a href={% url 'forum_app:post' post.id%}>Create Comment</a>
+
   {% for comment in post.comment_set.all %}
     <div>{{ comment.author }} | {{ comment.created }}<div>
     <div>{{ comment.content }}<div>
   {% endfor %}
+
 {% endblock %}
 

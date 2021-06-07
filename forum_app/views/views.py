@@ -1,8 +1,12 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect
 from forum_app.models.models import Post
 from forum_app.forms import UserForm, PostForm, CommentForm
+
+
+from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+
 
 def home(request):
 	user_name = 'Guest'
@@ -57,8 +61,3 @@ def logout_request(request):
 	logout(request)
 	messages.info(request, "You have successfully logged out.")
 	return redirect('/')
-
-def post(request, post_id):
-	post =  get_object_or_404(Post, id=post_id)
-	context = {'post':post}
-	return render(request, 'post.html', context)
