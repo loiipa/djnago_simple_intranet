@@ -14,11 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import post_views, account_views, views
+from django.contrib.auth.decorators import login_required
+from forum_app.views.post_views import post
+from forum_app.views.post_views import PostView, PostCreateView, PostEditView
+from forum_app.views.account_views import LogInView, LogOutView, SignUpView, CheckProfileView
 
 app_name = 'forum_app'
 
 urlpatterns = [
+<<<<<<< HEAD
     path('', post_views.PostView.as_view(), name='home'),
     path('login/', account_views.LogInView.as_view(), name='login'),
     path('logout/', views.logout_request, name='logout'),
@@ -27,4 +31,13 @@ urlpatterns = [
     path('post/<int:post_id>', post_views.post, name='post'),
     path('post_create/', post_views.PostCreateView.as_view(), name='post_create'),
     path('post/<int:post_id>/edit', post_views.PostEditView.as_view(), name='edit')
+=======
+    path('', PostView.as_view(), name='home'),
+    path('login/', LogInView.as_view(), name='login'),
+    path('logout/', LogOutView.as_view(), name='logout'),
+    path('registration/', SignUpView.as_view(), name='registration'),
+    path('post/<int:post_id>', post, name='post'),
+    path('post_create/', PostCreateView.as_view(), name='post_create'),
+    path('post/<int:post_id>/edit', PostEditView.as_view(), name='edit')
+>>>>>>> bd4f0a9838ef36e3a67adaa276f0339d863e2ae8
 ]
