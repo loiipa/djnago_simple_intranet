@@ -1,5 +1,5 @@
 from django.views.generic import ListView, CreateView, UpdateView
-from forum_app.forms import PostForm
+from forum_app.forms import PostForm, CommentForm
 from forum_app.models.models import Post, Comment
 from django.utils import timezone
 from django.http import HttpResponseRedirect
@@ -41,7 +41,6 @@ class PostEditView(UpdateView):
 	template_name = 'post_edit.html'
 	fields = ['title', 'content']
 	context_object_name = 'form'
-
 	pk_url_kwarg = 'post_id'
 
 	def get_success_url(self,):
@@ -52,6 +51,12 @@ class PostEditView(UpdateView):
 # 	model = Comment
 # 	template_name = 'post.html'
 # 	fields = ['content']
+# 	context_object_name = 'form'
+
+# 	def get_queryset(self):
+# 		post = get_object_or_404(Post, id=post_id)
+# 		return post
+
 # 	def form_valid(self, form):
 # 		comment = form.save(commit=False)
 # 		# comment.author =
@@ -60,7 +65,22 @@ class PostEditView(UpdateView):
 # 		comment.save()
 # 		return redirect('/')
 
+
 def post(request, post_id):
 	post = get_object_or_404(Post, id=post_id)
-	context = {'post':post}
+
+	if request.method == 'POST':
+		form = CommentForm(request.POST)
+		if form.is_valid():
+			form_tmp = form.save(commit=False)
+			form_tmp.post = post
+			# form_tmp.author =
+			form_tmp.created = timezone.now()
+			form_tmp.save()
+			form = form_tmp
+			context = {'post':post, 'form':form}
+			return redirect('/post/' + str(post_id))
+	else:
+		form = CommentForm()
+	context = {'post':post, 'form':form}
 	return render(request, 'post.html', context)

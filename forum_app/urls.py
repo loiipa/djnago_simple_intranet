@@ -23,6 +23,7 @@ urlpatterns = [
     path('login/', account_views.LogInView.as_view(), name='login'),
     path('logout/', views.logout_request, name='logout'),
     path('registration/', views.registration, name='registration'),
+    # path('post/<int:post_id>', post_views.ComnentCreateView.as_view(), name='post'),
     path('post/<int:post_id>', post_views.post, name='post'),
     path('post_create/', post_views.PostCreateView.as_view(), name='post_create'),
     path('post/<int:post_id>/edit', post_views.PostEditView.as_view(), name='edit')

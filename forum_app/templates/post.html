@@ -11,8 +11,11 @@ Rush01
   <div> {{ post.content }} </div>
   <div>---</div>
 
-
-  <a href={% url 'forum_app:post' post.id%}>Create Comment</a>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+  </form>
 
   {% for comment in post.comment_set.all %}
     <div>{{ comment.author }} | {{ comment.created }}<div>
