@@ -12,23 +12,23 @@ from django.contrib import messages
 class LogInView(LoginView):
     form_class = AuthenticationForm
     template_name = 'login.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('forum_app:home')
 
 
 class LogOutView(LogoutView):
     permanent = False
     quary_string = True
-    success_url =  reverse_lazy('home')
-        
+    success_url =  reverse_lazy('forum_app:home')
+
 
 class SignUpView(CreateView):
     form_class = UserCreationForm
     template_name = 'registration.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('forum_app:home')
     def form_invalid(self, form:UserCreationForm):
         messages.warning(self.request, "Invalid information.")
         return super().form_invalid(form)
-        
+
 
 class CheckProfileView(LoginRequiredMixin, DetailView):
     model = Profile

@@ -1,5 +1,5 @@
 from django.views.generic import ListView, CreateView, UpdateView
-from forum_app.forms import PostForm, CommentForm
+from forum_app.forms.forms import PostForm, CommentForm
 from forum_app.models.models import Post, Comment
 from django.utils import timezone
 from django.http import HttpResponseRedirect
