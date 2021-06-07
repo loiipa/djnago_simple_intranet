@@ -2,4 +2,4 @@
 
 python3 -m venv env_r01
 source env_r01/bin/activate
-pip install -r requirements.txt
+pip3 install -r requirements.txt

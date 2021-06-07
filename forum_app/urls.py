@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.urls import path
 from django.contrib.auth.decorators import login_required
-from forum_app.views.post_views import PostView
+from forum_app.views.post_views import post
+from forum_app.views.post_views import PostView, PostCreateView, PostEditView
 from forum_app.views.account_views import LogInView, LogOutView, SignUpView, CheckProfileView
 
 app_name = 'forum_app'
@@ -23,8 +24,9 @@ app_name = 'forum_app'
 urlpatterns = [
     path('', PostView.as_view(), name='home'),
     path('login/', LogInView.as_view(), name='login'),
-    path('logout/', login_required(LogOutView.as_view()), name='logout'),
+    path('logout/', LogOutView.as_view(), name='logout'),
     path('registration/', SignUpView.as_view(), name='registration'),
-    # path('post/<int:post_id>', views.post, name='post'),
-    path('profile/<slug:user_id>/', CheckProfileView.as_view(), name='profile'),
+    path('post/<int:post_id>', post, name='post'),
+    path('post_create/', PostCreateView.as_view(), name='post_create'),
+    path('post/<int:post_id>/edit', PostEditView.as_view(), name='edit')
 ]
