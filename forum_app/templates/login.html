@@ -5,13 +5,13 @@ Login
 {% endblock %}
 
 {% block content %}
-<form method="POST">
+<form action="{% url 'forum_app:login' %}" method="POST" class="form">
   {% if notice %}
     <p>{{ notice }}</p>
   {% endif %}
-  <p>Username : {{ form.username }}</p>
-  <p>password : {{ form.password1 }}</p>
   {% csrf_token %}
+  {{form.as_p}}
   <input type="submit" value="login">
+  <input type="reset" value="reset">
 </form>
 {% endblock %}

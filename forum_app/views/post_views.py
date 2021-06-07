@@ -1,6 +1,6 @@
 from django.views.generic import ListView
-from forum_app.forms import PostForm
-from forum_app.models import Post
+from forum_app.forms.forms import PostForm
+from forum_app.models.models import Post
 # from forum_app.models import Post
 
 class PostView(ListView):

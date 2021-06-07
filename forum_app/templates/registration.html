@@ -1,14 +1,15 @@
 {% extends "base.html" %}
 
 {% block title %}
-Life Pro Tips
+publish
 {% endblock %}
 
 {% block content %}
 
-<form method="POST">
-  {{ form }}
+<form action="{%url 'forum_app:registration'%}" method="post" class="form">
   {% csrf_token %}
-  <input type="submit" value="Register">
+  {{ form.as_p }}
+  <input type="submit" value="Registration">
+  <input type="reset" value="Cancel">
 </form>
 {% endblock %}
