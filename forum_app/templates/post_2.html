@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+Rush01
+{% endblock %}
+
+{% block content %}
+
+  <a href={% url 'forum_app:home' %}>Back to Home</a>
+  <a href={% url 'forum_app:post_edit' post.id %}>Edit Post</a>
+  {% if post.author == user %}
+    <a href={% url 'forum_app:post_delete' post.id %}>delete</a>
+  {% endif %}
+  <div> {{ post.title }} | {{ post.author }} | {{ post.created }} </div>
+  <div> {{ post.content }} </div>
+  <div>---<a href={% url 'forum_app:post' post.id %}>comment</a></div>
+
+  {% for comment in post.comment_set.all %}
+    {% if not comment.parent_comment %}
+      <div>{% include "comment_space.html" %}{{ comment.author }} | {{ comment.created }}</div>
+      <div>{% include "comment_space.html" %}{{ comment.content }}
+      <a href={% url 'forum_app:post_2' post.id comment.id %}>comment</a>
+      {% if com.id == comment.id %}
+        <form method="POST">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type="submit" value="Save">
+          <a href={% url 'forum_app:post' post.id %}>cancel</a>
+        </form>
+      {% endif %}
+      </div>
+    {% endif %}
+    {% if comment.child_comment.all %}
+      {% include 'comment.html' %}
+    {% endif %}
+  {% endfor %}
+
+{% endblock %}
+

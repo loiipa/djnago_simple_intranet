@@ -13,6 +13,8 @@ from forum_app.forms.account_forms import ProfileForm
 from django.contrib import messages
 from django.views.generic.base import View
 
+from django.shortcuts import redirect
+
 # class LogInView(FormView):
 # @login_required(redirect_field_name=None)
 # class LogInView(LoginView):
@@ -53,6 +55,7 @@ class SignUpView(CreateView):
     form_class = UserCreationForm
     template_name = 'registration.html'
     success_url = reverse_lazy('forum_app:home')
+
     def form_invalid(self, form:UserCreationForm):
         messages.warning(self.request, "Invalid information.")
         return super().form_invalid(form)

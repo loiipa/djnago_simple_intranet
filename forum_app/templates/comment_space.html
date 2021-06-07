@@ -1,0 +1,8 @@
+{% if comment.parent_comment %}
+|&nbsp;&nbsp;
+{% endif %}
+{% with comment.parent_comment as comment %}
+  {% if comment.parent_comment %}
+    {% include 'comment_space.html' %}
+  {% endif %}
+{% endwith %}
