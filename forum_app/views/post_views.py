@@ -31,7 +31,7 @@ class PostCreateView(CreateView):
 
 	def form_valid(self, form):
 		post = form.save(commit=False)
-		# post.author =
+		post.author = self.request.user
 		post.created = timezone.now()
 		post.save()
 		return redirect('/')
@@ -43,7 +43,7 @@ class PostEditView(UpdateView):
 	context_object_name = 'form'
 	pk_url_kwarg = 'post_id'
 
-	def get_success_url(self,):
+	def get_success_url(self):
 		return reverse('forum_app:post', kwargs={'post_id':self.object.id})
 
 
@@ -67,14 +67,14 @@ class PostEditView(UpdateView):
 
 
 def post(request, post_id):
-	post = get_object_or_404(Post, id=post_id)
+	post = get_object_or_404(Post, pk=post_id)
 
 	if request.method == 'POST':
 		form = CommentForm(request.POST)
 		if form.is_valid():
 			form_tmp = form.save(commit=False)
 			form_tmp.post = post
-			# form_tmp.author =
+			form_tmp.author = request.user
 			form_tmp.created = timezone.now()
 			form_tmp.save()
 			form = form_tmp
@@ -84,3 +84,23 @@ def post(request, post_id):
 		form = CommentForm()
 	context = {'post':post, 'form':form}
 	return render(request, 'post.html', context)
+
+def post_2(request, post_id, com_id):
+	post = get_object_or_404(Post, pk=post_id)
+	comment = get_object_or_404(Comment, pk=com_id)
+	if request.method == 'POST':
+		form = CommentForm(request.POST)
+		if form.is_valid():
+			form_tmp = form.save(commit=False)
+			# form_tmp.post = post
+			form_tmp.parent_comment = comment
+			form_tmp.author = request.user
+			form_tmp.created = timezone.now()
+			form_tmp.save()
+			form = form_tmp
+			context = {'post':post, 'form':form}
+			return redirect('/post/' + str(post_id))
+	else:
+		form = CommentForm()
+	context = {'post':post, 'form':form, 'com':comment}
+	return render(request, 'post_2.html', context)

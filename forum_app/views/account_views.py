@@ -8,23 +8,24 @@ from forum_app.models.profile_models import Profile
 from forum_app.forms.account_forms import ProfileForm
 from django.contrib import messages
 
+from django.shortcuts import redirect
+
 # class LogInView(FormView):
 class LogInView(LoginView):
     form_class = AuthenticationForm
     template_name = 'login.html'
     success_url = reverse_lazy('forum_app:home')
 
-
 class LogOutView(LogoutView):
     permanent = False
     quary_string = True
     success_url =  reverse_lazy('forum_app:home')
 
-
 class SignUpView(CreateView):
     form_class = UserCreationForm
     template_name = 'registration.html'
     success_url = reverse_lazy('forum_app:home')
+
     def form_invalid(self, form:UserCreationForm):
         messages.warning(self.request, "Invalid information.")
         return super().form_invalid(form)
