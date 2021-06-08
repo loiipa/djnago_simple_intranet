@@ -7,7 +7,7 @@ Profile: {{user}}
 {% block content %}
     {% with  user.profile.all.0 as info %}
     <h2>**{{ info }}** profile Detail</h2>
-    <li>image: <img src="{{ info.image.url }}" alt=''></li>
+    <li>image: <img src="{{ info.image.url }}" alt='' width='200'></li>
     <li>name: {{ info.name }}</li>
     <li>surname: {{ info.surname }}</li>
     <li>email: {{ info.email}}</li>
