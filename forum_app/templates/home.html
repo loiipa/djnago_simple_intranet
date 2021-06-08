@@ -8,34 +8,30 @@ Rush01
   <a button_type="link" class="btn btn-outline-secondary btn-sm" href={% url 'forum_app:post_create' %}>create</a>
 {% endif %}
 
-{% if user.is_authenticated %}
-  <table class="table">
-    <thead>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Author</th>
+      <th scope="col">Created</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for post in post_list %}
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">Title</th>
-        <th scope="col">Author</th>
-        <th scope="col">Created</th>
+        <th scope="row">{{post.id}}</th>
+        {% if user.is_authenticated %}
+          <td><a href={% url 'forum_app:post' post.id %}>{{ post.title }}</a></td>
+        {% else %}
+          <td>{{ post.title }}</td>
+        {% endif %}
+        <td>{{ post.author }}</td>
+        <td>{{ post.created }}</td>
       </tr>
-    </thead>
-    <tbody>
-      {% for post in post_list %}
-        <tr>
-          <th scope="row">{{post.id}}</th>
-          {% if user.is_authenticated %}
-            <td><a href={% url 'forum_app:post' post.id %}>{{ post.title }}</a></td>
-          {% else %}
-            <td>{{ post.title }}</td>
-          {% endif %}
-          <td>{{ post.author }}</td>
-          <td>{{ post.created }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-{% else %}
-  <p>Nothing else.. TT</p>
-{% endif %}
+    {% endfor %}
+  </tbody>
+</table>
 
 <nav aria-label="Page navigation example">
   <ul class="pagination">

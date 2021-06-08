@@ -24,13 +24,13 @@ Rush01
     {% if not comment.parent_comment %}
       <div>{% include "comment_space.html" %}{{ comment.author }} | {{ comment.created }}</div>
       <div>{% include "comment_space.html" %}{{ comment.content }}
-      <a button_class="btn btn-outline-success btn-sm" href={% url 'forum_app:post_2' post.id comment.id %}>comment</a>
+      <a class="btn btn-outline-success btn-sm" href={% url 'forum_app:post_2' post.id comment.id %}>comment</a>
       {% if com.id == comment.id %}
         <form method="POST">
           {% csrf_token %}
           {% bootstrap_form form %}
           {% bootstrap_button "Save" button_type="submit" button_class="btn btn-outline-success btn-sm" %}
-          <a button_class="btn btn-outline-success btn-sm" href={% url 'forum_app:post' post.id %}>cancel</a>
+          <a class="btn btn-outline-success btn-sm" href={% url 'forum_app:post' post.id %}>cancel</a>
         </form>
       {% endif %}
       </div>

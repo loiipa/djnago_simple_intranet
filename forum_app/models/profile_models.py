@@ -10,7 +10,7 @@ class Profile(models.Model):
     surname = models.CharField(max_length=64, null=True)
     email = models.EmailField(max_length=64, null=True)
     description = models.TextField(max_length=128, blank=True)
-    image = models.ImageField(blank=True, null=False, upload_to="")
+    image = models.ImageField(blank=True, null=False)
 
     def __str__(self):
             return str(self.user)

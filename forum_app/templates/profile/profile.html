@@ -1,16 +1,19 @@
 {% extends "base.html" %}
 
 {% block title %}
-Profile: {{user_profile}}
+Profile: {{user}}
 {% endblock %}
 
 {% block content %}
-
-    <h1>user_profile Detail: {{ user_profile }}</h1>
-    {% comment %} <li>image: {{ user_profile.image}}</li> {% endcomment %}
-    <li>name: {{ user_profile.name }}</li>
-    <li>surname: {{ user_profile.surname }}</li>
-    <li>email: {{ user_profile.email}}</li>
-    <li>description: {{ user_profile.description}}</li>
+    {% with  user.profile.all.0 as info %}
+    <h2>**{{ info }}** profile Detail</h2>
+    <li>image: <img src="{{ info.image.url }}" alt=''></li>
+    <li>name: {{ info.name }}</li>
+    <li>surname: {{ info.surname }}</li>
+    <li>email: {{ info.email}}</li>
+    <li>description: {{ info.description }}</li>
+    <a href="{% url 'forum_app:profile_edit' info.id %}" class="nav-link active" >edit</a>
+    <a href="{% url 'forum_app:home' %}" class="nav-link active" >Back</a>
+    {% endwith %}
 
 {% endblock %}

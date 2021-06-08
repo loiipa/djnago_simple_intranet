@@ -1,8 +1,8 @@
 from django.db.models.query import QuerySet
 from django.http.response import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, reverse
 from django.views.decorators.csrf import csrf_exempt
-import forum_app 
+import forum_app
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.views.generic import FormView, CreateView, ListView, RedirectView, DetailView
@@ -53,7 +53,6 @@ class SignUpView(CreateView):
     form_class = UserCreationForm
     template_name = 'registration.html'
     success_url = reverse_lazy('forum_app:home')
-
     def form_invalid(self, form:UserCreationForm):
         messages.warning(self.request, "Invalid information.")
         return super().form_invalid(form)
@@ -74,17 +73,21 @@ class InitProfileView(LoginRequiredMixin,CreateView):
     def form_invalid(self, form:ProfileForm):
         print(form.errors)
         return super().form_invalid(form)
-        
-         
- 
-class EditProfileView(UpdateView, FormView):
-    model = ProfileForm
+
+
+
+class EditProfileView(LoginRequiredMixin, UpdateView):
+    login_url = '/login/'
+    redirect_field_name = 'login'
+    model = Profile
     template_name = 'profile/register.html'
     context_object_name = 'user_profile'
     fields = ['name', 'surname', 'email', 'description', 'image']
-    success_url = reverse_lazy('forum_app:profile_show')
-    pk_url_kwargs = 'profile_id'
+    # success_url = reverse_lazy('forum_app:profile_show', kwargs={'profile_id':model.pk})
+    pk_url_kwarg = 'profile_id'
 
+    def get_success_url(self):
+        return reverse('forum_app:profile_show', kwargs={'profile_id':self.object.id})
 
 class ShowProfileView(LoginRequiredMixin, ListView):
     model = Profile

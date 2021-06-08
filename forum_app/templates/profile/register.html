@@ -6,9 +6,9 @@ Profile
 
 {% block content %}
 {%if user_profile == None%}
-<form action="{%url 'forum_app:profile_init' %}" method="post" class="form">
+<form action="{%url 'forum_app:profile_init' %}" enctype="multipart/form-data" method="post" class="form">
 {%else%}
-<form action="{%url 'forum_app:profile_init' user_profile.id %}" method="post" class="form">
+<form action="{%url 'forum_app:profile_edit' user_profile.id %}" enctype="multipart/form-data" method="post" class="form">
 {%endif%}
   {% csrf_token %}
   {{ form.as_p }}
