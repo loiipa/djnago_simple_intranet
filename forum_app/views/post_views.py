@@ -11,7 +11,9 @@ from django.contrib.auth.decorators import login_required
 # from forum_app.models import Post
 
 
-class PostView(ListView):
+class PostView(LoginRequiredMixin, ListView):
+	login_url = '/login/'
+	redirect_field_name = 'login'
 	model = Post
 	template_name = 'home.html'
 	paginate_by = 10

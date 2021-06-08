@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load django_bootstrap5 %}s
 {% block title %}
 Rush01
 {% endblock %}
@@ -7,8 +7,11 @@ Rush01
 {% block content %}
 <form method="POST">
   {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Save">
+  {% bootstrap_form form %}
+  {% bootstrap_button "Save" button_type="submit" button_class="btn-success" %}
+  <a button_type="link" class="btn btn-outline-success" href="{% url 'forum_app:home' %}" %}>Back</a>
+  {% bootstrap_button "reset" button_type="reset" button_class="btn btn-outline-success" %}
 </form>
+
 {% endblock %}
 
