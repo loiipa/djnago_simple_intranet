@@ -76,7 +76,7 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
 @login_required(login_url='forum_app:login')
 def post(request, post_id):
 	post = get_object_or_404(Post, pk=post_id)
-
+	print(post)
 	if request.method == 'POST':
 		form = CommentForm(request.POST)
 		if form.is_valid():

@@ -30,7 +30,7 @@ class LogInView(View):
             return redirect('forum_app:home')
         form = AuthenticationForm()
         return render(request, 'login.html', {'form' : form })
-    
+
     def post(self, request):
         if request.user.is_authenticated:
             redirect('forum_app:home')
@@ -41,16 +41,16 @@ class LogInView(View):
         else:
             form = AuthenticationForm()
             return render(request, 'login.html', {'form': form})
-        
-        
+
+
 
 
 class LogOutView(LogoutView):
     def get(self, request):
         logout(request)
         return redirect('forum_app:home')
-        
-        
+
+
 class SignUpView(CreateView):
     form_class = UserCreationForm
     template_name = 'registration.html'
@@ -68,7 +68,7 @@ class InitProfileView(CreateView):
     login_url = reverse_lazy('forum_app:login')
     def form_invalid(self, form:ProfileForm):
         messages.warning(self.request, "Invalid information.")
-        return super().form_invalid(form)        
+        return super().form_invalid(form)
 
 class EditProfileView(UpdateView):
     model = ProfileForm
