@@ -1,30 +1,35 @@
 {% extends "base.html" %}
-
+{% load django_bootstrap5 %}
 {% block title %}
 Rush01
 {% endblock %}
 
 {% block content %}
-
-  <a href={% url 'forum_app:home' %}>Back to Home</a>
-  <a href={% url 'forum_app:post_edit' post.id %}>Edit Post</a>
+  <br>
+  <div> {{ post.title }} <div>
+  <div> {{ post.author }} | {{ post.created }}
+  <a button_type="link" class="btn btn-outline-secondary btn-sm" href={% url 'forum_app:home' %}>Back to Home</a>
   {% if post.author == user %}
-    <a href={% url 'forum_app:post_delete' post.id %}>delete</a>
-  {% endif %}
-  <div> {{ post.title }} | {{ post.author }} | {{ post.created }} </div>
-  <div> {{ post.content }} </div>
-  <div>---</div>
+    <a button_type="link" class="btn btn-outline-secondary btn-sm" href={% url 'forum_app:post_edit' post.id %}>Edit Post</a>
+    <a button_type="link" class="btn btn-outline-secondary btn-sm" href={% url 'forum_app:post_delete' post.id %}>delete</a>
+  {% endif %}</div>
+  <br><br>
+
+  <h5>content</h5>
+  <p class="text-md-start">{{ post.content }}</p>
+  <br><br>
 
   <form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save">
+    {% bootstrap_form form %}
+    {% bootstrap_button "Save" button_type="submit" button_class="btn btn-outline-success btn-sm" %}
   </form>
+  <br><br>
 
   {% for comment in post.comment_set.all %}
     <div>{% include "comment_space.html" %}{{ comment.author }} | {{ comment.created }}</div>
     <div>{% include "comment_space.html" %}{{ comment.content }}
-    <a href={% url 'forum_app:post_2' post.id comment.id %}>comment</a>
+    <a class="btn btn-outline-success btn-sm" href={% url 'forum_app:post_2' post.id comment.id %}>comment</a>
     </div>
     {% if comment.child_comment.all %}
       {% include 'comment.html' %}

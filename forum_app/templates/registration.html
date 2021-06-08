@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load django_bootstrap5 %}
 {% block title %}
 publish
 {% endblock %}
@@ -8,8 +8,9 @@ publish
 
 <form action="{%url 'forum_app:registration'%}" method="post" class="form">
   {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Registration">
-  <input type="reset" value="Cancel">
+  {% bootstrap_form form %}
+
+  <input type="submit" class="btn" value="Registration">
+  <input type="reset" class="btn" value="Cancel">
 </form>
 {% endblock %}

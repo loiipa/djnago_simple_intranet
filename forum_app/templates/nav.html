@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <nav>
   <a href="{% url 'forum_app:home' %}">SITE NAME</a>
   <p>hello {{user}}</p>
@@ -12,4 +13,37 @@
   <a href="{% url 'forum_app:registration' %}">registration</a>
   <a href="{% url 'forum_app:login' %}">login</a>
   {% endif %}
+=======
+{% load django_bootstrap5 %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a href="{% url 'forum_app:home' %}" class="navbar-brand">42_Django_Forum</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          {% if user.is_authenticated %}
+            {% if user_profile == None %}
+              <a href="{% url 'forum_app:profile_init'%}" class="nav-link" >profile</a>
+            {% else %}
+              <a href="{% url 'forum_app:profile_show' user_profile.id%}" class="nav-link" >profile</a>
+            {% endif %}
+          {% else %}
+            <a href="{% url 'forum_app:registration' %}" class="nav-link" >registration</a>
+          {% endif %}
+        </li>
+        <li class="nav-item">
+          {% if user.is_authenticated %}
+            <a href="{% url 'forum_app:logout' %}" class="nav-link" >logout</a>
+          {% else %}
+            <a href="{% url 'forum_app:login' %}" class="nav-link active" >login</a>
+          {% endif %}
+        </li>
+      </ul>
+      <span class="navbar-text">** hello {{user}}**</span>
+    </div>
+  </div>
+>>>>>>> 5295e4db04e3b1d7d26b21c673148479a51107ce
 </nav>

@@ -1,31 +1,36 @@
 {% extends "base.html" %}
-
+{% load django_bootstrap5 %}
 {% block title %}
 Rush01
 {% endblock %}
 
 {% block content %}
 
-  <a href={% url 'forum_app:home' %}>Back to Home</a>
-  <a href={% url 'forum_app:post_edit' post.id %}>Edit Post</a>
+  <br>
+  <div> {{ post.title }} <div>
+  <div> {{ post.author }} | {{ post.created }}
+  <a button_type="link" class="btn btn-outline-secondary btn-sm" href={% url 'forum_app:home' %}>Back to Home</a>
   {% if post.author == user %}
-    <a href={% url 'forum_app:post_delete' post.id %}>delete</a>
-  {% endif %}
-  <div> {{ post.title }} | {{ post.author }} | {{ post.created }} </div>
-  <div> {{ post.content }} </div>
-  <div>---<a href={% url 'forum_app:post' post.id %}>comment</a></div>
+    <a button_type="link" class="btn btn-outline-secondary btn-sm" href={% url 'forum_app:post_edit' post.id %}>Edit Post</a>
+    <a button_type="link" class="btn btn-outline-secondary btn-sm" href={% url 'forum_app:post_delete' post.id %}>delete</a>
+  {% endif %}</div>
+  <br><br>
+
+  <h5>content</h5>
+  <p class="text-md-start">{{ post.content }}</p>
+  <br><br>
 
   {% for comment in post.comment_set.all %}
     {% if not comment.parent_comment %}
       <div>{% include "comment_space.html" %}{{ comment.author }} | {{ comment.created }}</div>
       <div>{% include "comment_space.html" %}{{ comment.content }}
-      <a href={% url 'forum_app:post_2' post.id comment.id %}>comment</a>
+      <a button_class="btn btn-outline-success btn-sm" href={% url 'forum_app:post_2' post.id comment.id %}>comment</a>
       {% if com.id == comment.id %}
         <form method="POST">
           {% csrf_token %}
-          {{ form.as_p }}
-          <input type="submit" value="Save">
-          <a href={% url 'forum_app:post' post.id %}>cancel</a>
+          {% bootstrap_form form %}
+          {% bootstrap_button "Save" button_type="submit" button_class="btn btn-outline-success btn-sm" %}
+          <a button_class="btn btn-outline-success btn-sm" href={% url 'forum_app:post' post.id %}>cancel</a>
         </form>
       {% endif %}
       </div>

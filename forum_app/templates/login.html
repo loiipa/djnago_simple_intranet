@@ -1,17 +1,18 @@
 {% extends "base.html" %}
-
+{% load django_bootstrap5 %}
 {% block title %}
 Login
 {% endblock %}
 
 {% block content %}
-<form action="{% url 'forum_app:login' %}" method="post" class="form">
+
+<form action="{% url 'forum_app:login' %}" method="post">
   {% if notice %}
     <p>{{ notice }}</p>
   {% endif %}
   {% csrf_token %}
-  {{form.as_p}}
-  <input type="submit" value="login">
-  <input type="reset" value="reset">
+  {% bootstrap_form form %}
+  {% bootstrap_button "login" button_type="submit" button_class="btn-success" %}
+  {% bootstrap_button "reset" button_type="reset" button_class="btn btn-outline-success" %}
 </form>
 {% endblock %}
