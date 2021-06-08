@@ -5,7 +5,12 @@ from django.db.models import TextField, EmailField, CharField, ImageField
 from django.db.models.fields import BooleanField
 
 class Profile(models.Model):
-    id = models.CharField(max_length=64, primary_key=True, unique=True, null=False)
-    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
-    description = TextField(max_length=128, blank=True)
-    image = ImageField(blank=False)
+    user = models.ForeignKey(User, related_name='profile', on_delete=models.CASCADE)
+    name = models.CharField(max_length=64, null=True)
+    surname = models.CharField(max_length=64, null=True)
+    email = models.EmailField(max_length=64, null=True)
+    description = models.TextField(max_length=128, blank=True)
+    image = models.ImageField(blank=True, null=False, upload_to="")
+
+    def __str__(self):
+            return str(self.user)

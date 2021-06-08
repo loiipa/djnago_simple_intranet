@@ -2,10 +2,10 @@
   <a href="{% url 'forum_app:home' %}">SITE NAME</a>
   <p>hello {{user}}</p>
   {% if user.is_authenticated %}
-  {% if user_profile == None %}
-  <a href="{% url 'forum_app:profile_init'%}">profile</a>
-  {% else %}
+  {% if user_profile.user == user %}
   <a href="{% url 'forum_app:profile_show' user_profile.id%}">profile</a>
+  {% else %}
+  <a href="{% url 'forum_app:profile_init'%}">profile</a>
   {% endif %}
   <a href="{% url 'forum_app:logout' %}">logout</a>
   {% else %}
