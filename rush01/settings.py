@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-gxset6%-wmudcr@y+h%inqw!d(m@(#r%m7q=4qr(j%l)6*w=v8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(" ")
 
 
 # Application definition
@@ -78,8 +78,12 @@ WSGI_APPLICATION = 'rush01.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.environ.get("SQL_ENGINE", 'django.db.backends.sqlite3'),
+        'NAME': os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, 'db.sqlite3')),
+        'USER': os.environ.get("SQL_USER", "djangouser"),
+        'PASSWORD': os.environ.get("SQL_PASSWORD", 'secret'),
+        'HOST': os.environ.get("SQL_HOST", 'localhost'),
+        'PORT': os.environ.get("SQL_PORT", "5432"),
     }
 }
 
@@ -132,6 +136,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media files
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL)
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
