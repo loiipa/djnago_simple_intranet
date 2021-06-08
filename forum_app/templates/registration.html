@@ -9,8 +9,7 @@ publish
 <form action="{%url 'forum_app:registration'%}" method="post" class="form">
   {% csrf_token %}
   {% bootstrap_form form %}
-
-  <input type="submit" class="btn" value="Registration">
-  <input type="reset" class="btn" value="Cancel">
+  {% bootstrap_button "Registration" button_type="submit" button_class="btn btn-success" %}
+  {% bootstrap_button "Cancel" button_type="submit" button_class="btn btn-outline-success" %}
 </form>
 {% endblock %}
